@@ -16,13 +16,13 @@ function TodoWrapper() {
   }
   return (
     <div>
-      <TodoForm addTodo={addTodo} />
+      <TodoForm addTodo={addTodo} Todo={todo} />
       <TodoItem />
     </div>
   );
 }
 
-function TodoForm({ addTodo }) {
+function TodoForm({ addTodo, Todo }) {
   const [item, setItem] = useState("");
 
   function handleValue(e) {
@@ -39,15 +39,18 @@ function TodoForm({ addTodo }) {
         placeholder="Add a new task..."
         onChange={(e) => setItem(e.target.value)}
       />
-      <button>add text</button>
+      <button>Add</button>
+      {Todo.map((todoItem) => (
+        <TodoItem Todo={todoItem} />
+      ))}
     </form>
   );
 }
 
-function TodoItem() {
+function TodoItem({ Todo }) {
   return (
     <div>
-      <h3>Item</h3>
+      <h3>{Todo}</h3>
     </div>
   );
 }
