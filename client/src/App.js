@@ -15,7 +15,7 @@ function TodoWrapper() {
     setTodo([...todo, item]);
   }
   return (
-    <div>
+    <div className="TodoWrapper">
       <TodoForm addTodo={addTodo} Todo={todo} />
       <TodoItem />
     </div>
@@ -31,15 +31,16 @@ function TodoForm({ addTodo, Todo }) {
   }
 
   return (
-    <form onSubmit={handleValue}>
-      <h1>Todo List</h1>
+    <form onSubmit={handleValue} className="TodoForm">
+      <h1 className="h1">Todo List</h1>
       <input
         value={item}
         type="text"
         placeholder="Add a new task..."
         onChange={(e) => setItem(e.target.value)}
+        className="todo-input"
       />
-      <button>Add</button>
+      <button className="todo-btn">Add</button>
       {Todo.map((todoItem) => (
         <TodoItem Todo={todoItem} />
       ))}
@@ -49,7 +50,7 @@ function TodoForm({ addTodo, Todo }) {
 
 function TodoItem({ Todo }) {
   return (
-    <div>
+    <div className="Todo">
       <h3>{Todo}</h3>
     </div>
   );
