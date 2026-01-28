@@ -1,59 +1,94 @@
-import { useState } from "react";
 import "./App.css";
+import React, { useState, useEffect } from "react";
 
 function App() {
+  const [text, setText] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  // GET all todos
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const res = await fetch("http://127.0.0.1:3000/api/todos");
+      const data = await res.json();
+      setTodos(data.data.allTodos);
+    };
+
+    fetchTodos();
+  }, []);
+
+  // CREATE todo
+  const createTodo = async () => {
+    const res = await fetch("http://127.0.0.1:3000/api/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text,
+        completed: false,
+      }),
+    });
+
+    const data = await res.json();
+    setTodos([...todos, data.data.todo]);
+    setText("");
+  };
+
+  // DELETE todo
+  const deleteTodo = async (id) => {
+    await fetch(`http://127.0.0.1:3000/api/todos/${id}`, {
+      method: "DELETE",
+    });
+
+    setTodos(todos.filter((todo) => todo._id !== id));
+  };
+
+  // TOGGLE completed
+  const toggleTodo = async (todo) => {
+    const res = await fetch(`http://127.0.0.1:3000/api/todos/${todo._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        completed: !todo.completed,
+      }),
+    });
+
+    const data = await res.json();
+
+    setTodos(todos.map((t) => (t._id === todo._id ? data.data.todo : t)));
+  };
+
   return (
-    <div className="App">
-      <TodoWrapper />
-    </div>
-  );
-}
+    <>
+      {todos.length === 0 ? (
+        <h3>No todos. Make one now!</h3>
+      ) : (
+        todos.map((todo) => (
+          <div key={todo._id}>
+            {todo.text}
+            <button onClick={() => toggleTodo(todo)}>
+              {todo.completed ? "❌" : "✅"}
+            </button>
+            <button onClick={() => deleteTodo(todo._id)}>🗑️</button>
+          </div>
+        ))
+      )}
 
-function TodoWrapper() {
-  const [todo, setTodo] = useState([]);
-  function addTodo(item) {
-    setTodo([...todo, item]);
-  }
-  return (
-    <div className="TodoWrapper">
-      <TodoForm addTodo={addTodo} Todo={todo} />
-      <TodoItem />
-    </div>
-  );
-}
-
-function TodoForm({ addTodo, Todo }) {
-  const [item, setItem] = useState("");
-
-  function handleValue(e) {
-    e.preventDefault();
-    addTodo(item);
-  }
-
-  return (
-    <form onSubmit={handleValue} className="TodoForm">
-      <h1 className="h1">Todo List</h1>
       <input
-        value={item}
-        type="text"
-        placeholder="Add a new task..."
-        onChange={(e) => setItem(e.target.value)}
-        className="todo-input"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Todo..."
       />
-      <button className="todo-btn">Add</button>
-      {Todo.map((todoItem) => (
-        <TodoItem Todo={todoItem} />
-      ))}
-    </form>
-  );
-}
-
-function TodoItem({ Todo }) {
-  return (
-    <div className="Todo">
-      <h3>{Todo}</h3>
-    </div>
+      <button onClick={createTodo}>Make todo</button>
+    </>
   );
 }
 
 export default App;
+
+//TODO:
+//fix css
+//fix complete
+//allow update
