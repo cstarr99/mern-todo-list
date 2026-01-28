@@ -77,3 +77,20 @@ exports.DeleteTodo = async (req, res) => {
     });
   }
 };
+
+//Delete All Todos
+exports.DeleteAllTodos = async (req, res) => {
+  try {
+    await Todo.deleteMany({});
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
+};

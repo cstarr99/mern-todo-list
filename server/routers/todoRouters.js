@@ -5,7 +5,8 @@ const router = express.Router();
 router
   .route("/")
   .get(todoController.GetAllTodo)
-  .post(todoController.CreateTodo);
+  .post(todoController.CreateTodo)
+  .delete(todoController.DeleteAllTodos);
 
 router
   .route("/:id")
