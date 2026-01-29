@@ -60,6 +60,12 @@ function App() {
     setTodos(todos.map((t) => (t._id === todo._id ? data.data.todo : t)));
   };
 
+  const DeleteAll = async () => {
+    const res = await fetch("http://127.0.0.1:3000/api/todos");
+    const data = await res.json();
+    setTodos({});
+  };
+
   return (
     <>
       {todos.length === 0 ? (
@@ -82,6 +88,7 @@ function App() {
         placeholder="Todo..."
       />
       <button onClick={createTodo}>Make todo</button>
+      <button onClick={DeleteAll}>Clear All</button>
     </>
   );
 }
@@ -91,4 +98,5 @@ export default App;
 //TODO:
 //fix css
 //fix complete
-//allow update
+//allow update btn
+//add delete all btn
