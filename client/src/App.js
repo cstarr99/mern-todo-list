@@ -60,24 +60,6 @@ function App() {
     setTodos(todos.map((t) => (t._id === todo._id ? data.data.todo : t)));
   };
 
-  //Update todo
-  // const updateTodo = async (todo) => {
-  //   const res = await fetch(`http://127.0.0.1:3000/api/todos/${todo._id}`, {
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       text:
-
-  //     }),
-  //   });
-
-  //   const data = await res.json();
-
-  //   setTodos(todos.map((t) => (t._id === todo._id ? data.data.todo : t)));
-  // };
-
   // DELETE all todos
   const deleteAll = async () => {
     await fetch("http://127.0.0.1:3000/api/todos/", {
@@ -117,4 +99,3 @@ export default App;
 
 //TODO:
 //fix css
-//allow update btn
