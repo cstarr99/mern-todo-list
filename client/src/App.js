@@ -43,7 +43,7 @@ function App() {
     setTodos(todos.filter((todo) => todo._id !== id));
   };
 
-  // TOGGLE completed
+  // TOGGLE checkmark on todo
   const toggleTodo = async (todo) => {
     const res = await fetch(`http://127.0.0.1:3000/api/todos/${todo._id}`, {
       method: "PATCH",
@@ -60,10 +60,12 @@ function App() {
     setTodos(todos.map((t) => (t._id === todo._id ? data.data.todo : t)));
   };
 
+  // DELETE all todos
   const DeleteAll = async () => {
-    const res = await fetch("http://127.0.0.1:3000/api/todos");
-    const data = await res.json();
-    setTodos({});
+    await fetch("http://127.0.0.1:3000/api/todos/", {
+      method: "DELETE",
+    });
+    setTodos([]);
   };
 
   return (
@@ -99,4 +101,3 @@ export default App;
 //fix css
 //fix complete
 //allow update btn
-//add delete all btn
