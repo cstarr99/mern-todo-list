@@ -60,8 +60,26 @@ function App() {
     setTodos(todos.map((t) => (t._id === todo._id ? data.data.todo : t)));
   };
 
+  //Update todo
+  // const updateTodo = async (todo) => {
+  //   const res = await fetch(`http://127.0.0.1:3000/api/todos/${todo._id}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       text:
+
+  //     }),
+  //   });
+
+  //   const data = await res.json();
+
+  //   setTodos(todos.map((t) => (t._id === todo._id ? data.data.todo : t)));
+  // };
+
   // DELETE all todos
-  const DeleteAll = async () => {
+  const deleteAll = async () => {
     await fetch("http://127.0.0.1:3000/api/todos/", {
       method: "DELETE",
     });
@@ -77,7 +95,7 @@ function App() {
           <div key={todo._id}>
             {todo.text}
             <button onClick={() => toggleTodo(todo)}>
-              {todo.completed ? "❌" : "✅"}
+              {todo.completed ? "✅" : "❌"}
             </button>
             <button onClick={() => deleteTodo(todo._id)}>🗑️</button>
           </div>
@@ -90,7 +108,7 @@ function App() {
         placeholder="Todo..."
       />
       <button onClick={createTodo}>Make todo</button>
-      <button onClick={DeleteAll}>Clear All</button>
+      <button onClick={deleteAll}>Clear All</button>
     </>
   );
 }
@@ -99,5 +117,4 @@ export default App;
 
 //TODO:
 //fix css
-//fix complete
 //allow update btn
