@@ -69,17 +69,21 @@ function App() {
   };
 
   return (
-    <>
+    <div className="todo-container">
       {todos.length === 0 ? (
         <h3>No todos. Make one now!</h3>
       ) : (
         todos.map((todo) => (
-          <div key={todo._id}>
-            {todo.text}
-            <button onClick={() => toggleTodo(todo)}>
+          <div key={todo._id} className="todo-item">
+            <span className={todo.completed ? "completed" : ""}>
+              {todo.text}
+            </span>
+            <button className="toggle" onClick={() => toggleTodo(todo)}>
               {todo.completed ? "✅" : "❌"}
             </button>
-            <button onClick={() => deleteTodo(todo._id)}>🗑️</button>
+            <button className="delete" onClick={() => deleteTodo(todo._id)}>
+              🗑️
+            </button>
           </div>
         ))
       )}
@@ -88,14 +92,16 @@ function App() {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Todo..."
+        className="todo-input"
       />
-      <button onClick={createTodo}>Make todo</button>
-      <button onClick={deleteAll}>Clear All</button>
-    </>
+      <button className="add" onClick={createTodo}>
+        Make todo
+      </button>
+      <button className="clear" onClick={deleteAll}>
+        Clear All
+      </button>
+    </div>
   );
 }
 
 export default App;
-
-//TODO:
-//fix css
